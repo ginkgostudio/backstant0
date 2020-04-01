@@ -4,8 +4,8 @@ var router = express.Router();
 /* GET home page. */
 router.post('/', function (req, res, next) {
   res.status(200).send({
-    message: 'Expense saved :)',
-    expense: {
+    status: 'Expense saved :)',
+    data: {
       amount: '123',
       description: 'my desc',
       currency: 'ARS',
@@ -13,6 +13,21 @@ router.post('/', function (req, res, next) {
       date: '31/03/2020'
     }
   })
+});
+
+// get all todos
+router.get('/', (req, res) => {
+  res.status(200).send(
+    [
+      {
+        amount: '123',
+        description: 'my desc',
+        currency: 'ARS',
+        paymentMethod: 'Efectivo',
+        date: '31/03/2020'
+      }
+    ]
+  )
 });
 
 module.exports = router;
