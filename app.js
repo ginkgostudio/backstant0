@@ -1,55 +1,44 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const express = require("express");
+const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
+const cors = require("cors");
+const { ApolloServer } = require("apollo-server-express");
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var cashinRouter = require('./routes/cashin');
-var expenseRouter = require('./routes/expense');
+const schema = require("./schema");
 
-var app = express();
+// Constants
+const URL = "mongodb://localhost:27017/gastant0";
 
+// Connect to MongoDB.
+const connect = mongoose.connect(URL, { useNewUrlParser: true });
+connect.then(
+  db => {
+    console.log("Connected correctly to server!");
+  },
+  err => {
+    console.log(err);
+  }
+);
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
-app.set('port',8080);
-
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/cashin', cashinRouter);
-app.use('/expense', expenseRouter);
-
-
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
-});
-app.listen(3300);
-
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+// Creating apollo server.
+const server = new ApolloServer({
+  schema: schema
 });
 
-module.exports = app;
+// Creating express app.
+const app = express();
+
+// Applying middelware to application.
+app.use(bodyParser.json());
+app.use("*", cors());
+
+// Connecting express app with apollo.
+server.applyMiddleware({ app });
+
+// Start Server.
+app.listen({ port: 4000 }, () =>
+  console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`)
+);
 
 
-
-
-//https://www.johnwakeling.co.uk/posts/create-an-api-in-nodejs/
-//https://medium.com/@purposenigeria/build-a-restful-api-with-node-js-and-express-js-d7e59c7a3dfb
+  //https://medium.com/better-programming/a-simple-crud-app-using-graphql-nodejs-mongodb-78319908f563
