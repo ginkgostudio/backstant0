@@ -1,6 +1,6 @@
 # Project Title
 
-Backend for Gastanto 
+Backend for [Gastant0](https://github.com/ginkgostudio/gastant0) personal accounting app.
 
 ## Getting Started
 
