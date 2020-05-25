@@ -3,8 +3,8 @@ const Schema = mongoose.Schema;
 const invoiceSchema = new Schema(
     {   
         invoiceNumber: {
-        type: String,
-        required: true
+            type: String,
+            required: true
         },
         description: {
             type: String,
@@ -26,6 +26,6 @@ const invoiceSchema = new Schema(
     }, {
     timestamps: true
 });
-let Invoice = mongoose.model("Invoice", invoiceSchema);
-console.log(Invoice);
+let Invoices = mongoose.model("Invoice", invoiceSchema);
+console.log(Invoices);
 module.exports = { Invoices, invoiceSchema };
