@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const cashinSchema = new Schema(
+const invoiceSchema = new Schema(
     {   
         invoiceNumber: {
         type: String,
-        required: false
+        required: true
         },
         description: {
             type: String,
@@ -18,10 +18,6 @@ const cashinSchema = new Schema(
             type: String,
             required: true
         },
-        bankAccount: {
-            type: String,
-            required: true
-        },
         date: {
             type: Date,
             required: true
@@ -30,6 +26,6 @@ const cashinSchema = new Schema(
     }, {
     timestamps: true
 });
-let Cashins = mongoose.model("Cashin", cashinSchema);
-console.log(Cashins);
-module.exports = { Cashins, cashinSchema };
+let Invoice = mongoose.model("Invoice", invoiceSchema);
+console.log(Invoice);
+module.exports = { Invoices, invoiceSchema };
